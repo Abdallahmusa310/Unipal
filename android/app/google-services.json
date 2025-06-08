@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "493548552718",
+    "project_id": "unipal-271aa",
+    "storage_bucket": "unipal-271aa.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:493548552718:android:32a59c69eb390fe37c725f",
+        "android_client_info": {
+          "package_name": "com.example.unipal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKWH09_BTawn1TbFcl64z6Pa2F3W7CJpY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
