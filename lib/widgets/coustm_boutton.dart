@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:unipal/constans/colors.dart';
-import 'package:unipal/constans/strings.dart';
 import 'package:unipal/widgets/coustm_text.dart';
 
 class CoustmBoutton extends StatelessWidget {
-  const CoustmBoutton({super.key});
+  const CoustmBoutton({super.key, required this.text, required this.onPressed});
+  final String text;
+  final void Function() onPressed;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {
-        Navigator.pushNamed(context, homeScreen);
-      },
+      onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: Color(0xFF0073C6),
         foregroundColor: Colors.white,
@@ -19,11 +18,7 @@ class CoustmBoutton extends StatelessWidget {
         elevation: 2,
         shadowColor: Colors.black,
       ),
-      child: CoustmText(
-        text: "Log in",
-        color: Appcolors.whitecolor,
-        textsize: 14,
-      ),
+      child: CoustmText(text: text, color: Appcolors.whitecolor, textsize: 14),
     );
   }
 }

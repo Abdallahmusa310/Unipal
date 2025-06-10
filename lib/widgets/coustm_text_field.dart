@@ -8,15 +8,25 @@ class CoustmTextField extends StatelessWidget {
     this.icon,
     this.iconbt,
     this.obscureText = true,
+    this.controller,
   });
   final String text;
   final IconData? icon;
   final Widget? iconbt;
   final bool obscureText;
+  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      validator: (data) {
+        if (data?.isEmpty ?? true) {
+          return 'feild is requird';
+        } else {
+          return null;
+        }
+      },
+      controller: controller,
       style: TextStyle(color: Appcolors.whitecolor),
       obscureText: obscureText,
       decoration: InputDecoration(
@@ -25,7 +35,10 @@ class CoustmTextField extends StatelessWidget {
         prefixIcon: Icon(icon, color: Appcolors.whitecolor),
         suffixIcon: iconbt,
         labelText: text,
-        labelStyle: TextStyle(color: Appcolors.whitecolor),
+        labelStyle: TextStyle(
+          color: Appcolors.whitecolor,
+          fontFamily: 'Poppins',
+        ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(width: 1.25, color: Appcolors.graycolor),
           borderRadius: BorderRadius.all(Radius.circular(12)),

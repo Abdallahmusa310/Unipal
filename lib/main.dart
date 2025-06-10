@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:unipal/constans/strings.dart';
 import 'package:unipal/screens/home%20screen/home_screen.dart';
+import 'package:unipal/screens/register/log_in_screen.dart';
+import 'package:unipal/screens/register/sign_up_screen.dart';
 import 'package:unipal/screens/splash%20scren/splash_sceen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -22,8 +24,8 @@ class MyApp extends StatelessWidget {
       routes: {
         splashSceen: (context) => SplashSceen(),
         homeScreen: (context) => HomeScreen(),
-        loginscreen: (context) => HomeScreen(),
-        signupscreen: (context) => HomeScreen(),
+        loginscreen: (context) => LogInScreen(),
+        signupscreen: (context) => SignUpScreen(),
       },
     );
   }
