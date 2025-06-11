@@ -4,6 +4,7 @@ import 'package:unipal/constans/colors.dart';
 class CoustmTextField extends StatelessWidget {
   const CoustmTextField({
     super.key,
+    this.onChanged,
     required this.text,
     this.icon,
     this.iconbt,
@@ -15,10 +16,12 @@ class CoustmTextField extends StatelessWidget {
   final Widget? iconbt;
   final bool obscureText;
   final TextEditingController? controller;
+  final Function(String)? onChanged;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onChanged: onChanged,
       validator: (data) {
         if (data?.isEmpty ?? true) {
           return 'feild is requird';

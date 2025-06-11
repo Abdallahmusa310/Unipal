@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:unipal/constans/colors.dart';
 import 'package:unipal/constans/strings.dart';
@@ -18,6 +19,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController confirmpasswordController =
       TextEditingController();
   final formKey = GlobalKey<FormState>();
+  String? email, password;
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +68,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     const SizedBox(height: 16),
                     CoustmTextField(
+                      onChanged: (data) {
+                        email = data;
+                      },
                       obscureText: false,
                       text: 'e_mail',
                       icon: Icons.email,
@@ -115,7 +120,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     SizedBox(
                       width: double.infinity,
                       child: CoustmBoutton(
-                        onPressed: () {
+                        onPressed: () async {
                           if (formKey.currentState!.validate()) {
                             final password = passwordController.text.trim();
                             final confirmPassword =
@@ -127,7 +132,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 ),
                               );
                             } else {
-                              Navigator.pushNamed(context, homeScreen);
+                              try {
+                                var auth = FirebaseAuth.instance;
+                                await auth.createUserWithEmailAndPassword(
+                                  email: email!,
+                                  password: password,
+                                );
+                                Navigator.pushNamed(context, homeScreen);
+                              } on FirebaseAuthException catch (e) {
+                                if (e.code == 'weak-password') {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        'The password provided is too weak.',
+                                      ),
+                                    ),
+                                  );
+                                } else if (e.code == 'email-already-in-use') {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        'The account already exists for that email.',
+                                      ),
+                                    ),
+                                  );
+                                }
+                              } catch (e) {
+                                SnackBar(content: Text(e.toString()));
+                              }
                             }
                           }
                         },
