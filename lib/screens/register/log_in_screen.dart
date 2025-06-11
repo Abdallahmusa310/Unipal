@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:unipal/constans/colors.dart';
 import 'package:unipal/constans/strings.dart';
@@ -14,6 +15,7 @@ class LogInScreen extends StatefulWidget {
 
 class _LogInScreenState extends State<LogInScreen> {
   bool isPasswordVisible = true;
+  String? email, password;
   final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -56,6 +58,9 @@ class _LogInScreenState extends State<LogInScreen> {
                     ),
                     SizedBox(height: 36),
                     CoustmTextField(
+                      onChanged: (data) {
+                        email = data;
+                      },
                       obscureText: false,
                       text: 'e_mail',
 
@@ -63,6 +68,9 @@ class _LogInScreenState extends State<LogInScreen> {
                     ),
                     const SizedBox(height: 16),
                     CoustmTextField(
+                      onChanged: (data) {
+                        password = data;
+                      },
                       obscureText: isPasswordVisible,
                       text: 'password',
                       icon: Icons.key,
@@ -95,9 +103,39 @@ class _LogInScreenState extends State<LogInScreen> {
                       width: double.infinity,
                       child: CoustmBoutton(
                         text: 'Log in',
-                        onPressed: () {
-                          if (formKey.currentState!.validate()) {
-                            Navigator.pushNamed(context, homeScreen);
+                        onPressed: () async {
+                          try {
+                            await FirebaseAuth.instance
+                                .signInWithEmailAndPassword(
+                                  email: email!,
+                                  password: password!,
+                                );
+                          } on FirebaseAuthException catch (e) {
+                            if (e.code == 'user-not-found') {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'No user found for that email.',
+                                  ),
+                                ),
+                              );
+                            } else if (e.code == 'invalid-credential') {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Wrong password provided for that user.',
+                                  ),
+                                ),
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'An error occurred: ${e.message}',
+                                  ),
+                                ),
+                              );
+                            }
                           }
                         },
                       ),
