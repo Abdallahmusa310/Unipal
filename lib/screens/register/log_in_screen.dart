@@ -91,7 +91,9 @@ class _LogInScreenState extends State<LogInScreen> {
                     Align(
                       alignment: Alignment.centerRight,
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, forgetpassword);
+                        },
                         child: CoustmText(
                           text: 'Forget password ?',
                           color: Colors.white70,
@@ -104,37 +106,41 @@ class _LogInScreenState extends State<LogInScreen> {
                       child: CoustmBoutton(
                         text: 'Log in',
                         onPressed: () async {
-                          try {
-                            await FirebaseAuth.instance
-                                .signInWithEmailAndPassword(
-                                  email: email!,
-                                  password: password!,
+                          if (formKey.currentState!.validate()) {
+                            try {
+                              await FirebaseAuth.instance
+                                  .signInWithEmailAndPassword(
+                                    email: email!,
+                                    password: password!,
+                                  );
+                              Navigator.pushNamed(context, homeScreen);
+                            } on FirebaseAuthException catch (e) {
+                              if (e.code == 'user-not-found') {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'No user found for that email.',
+                                    ),
+                                  ),
                                 );
-                          } on FirebaseAuthException catch (e) {
-                            if (e.code == 'user-not-found') {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'No user found for that email.',
+                              } else if (e.code == 'invalid-credential') {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'Wrong password provided for that user.',
+                                    ),
                                   ),
-                                ),
-                              );
-                            } else if (e.code == 'invalid-credential') {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'Wrong password provided for that user.',
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'An error occurred: ${e.message}',
+                                    ),
                                   ),
-                                ),
-                              );
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'An error occurred: ${e.message}',
-                                  ),
-                                ),
-                              );
+                                );
+                                print(e.toString());
+                              }
                             }
                           }
                         },

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:unipal/constans/strings.dart';
 import 'package:unipal/screens/home%20screen/home_screen.dart';
+import 'package:unipal/screens/register/forget_password_screen.dart';
 import 'package:unipal/screens/register/log_in_screen.dart';
 import 'package:unipal/screens/register/sign_up_screen.dart';
 import 'package:unipal/screens/splash%20scren/splash_sceen.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
         homeScreen: (context) => HomeScreen(),
         loginscreen: (context) => LogInScreen(),
         signupscreen: (context) => SignUpScreen(),
+        forgetpassword: (context) => ForgetPasswordScreen(),
       },
     );
   }
